@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =========================
+       Intelvex – Single-File Landing Page
+       Author: M365 Copilot
+       Notes: All HTML, CSS, and JS in this single file. No external deps.
+       ========================= -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Intelvex | Next-Gen Cybersecurity for SMBs</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Intelvex delivers affordable, AI-assisted cybersecurity for small and medium businesses across the US and Canada: website & network scanning, phishing awareness, policies, and continuous monitoring." />
+  <meta name="keywords" content="cybersecurity, small business security, vulnerability scanning, network security, phishing testing, security monitoring, AI security" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Intelvex | Next-Gen Cybersecurity for SMBs" />
+  <meta property="og:description" content="Affordable AI-assisted security solutions for small and medium businesses in the US and Canada." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://intelvex.example" />
+  <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'%3E%3Crect width='100%25' height='100%25' fill='%230b1020'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%233b82f6' font-size='64' font-family='Segoe UI, Roboto, Arial, sans-serif'%3EIntelvex%3C/text%3E%3C/svg%3E" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon (inline SVG as data URL) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs/%3E%3Cpath d='M32 4l22 8v16c0 13.2-9.4 25.6-22 28-12.6-2.4-22-14.8-22-28V12l22-8z' fill='%233b82f6'/%3E%3Cpath d='M20 25l8 8 16-16' fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Intelvex",
+    "url": "https://intelvex.example",
+    "logo": "https://intelvex.example/logo.svg",
+    "sameAs": [
+      "https://www.linkedin.com/company/intelvex",
+      "https://twitter.com/intelvex",
+      "https://github.com/intelvex"
+    ],
+    "description": "Affordable AI-assisted cybersecurity solutions for small and medium businesses in the US and Canada."
+  }
+  </script>
+
+  <style>
+    /* =========================
+       Base & Theme (Dark / Blue)
+       ========================= */
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #0f1730;
+      --panel: #121a35;
+      --panel-2: #0d1530;
+      --text: #e6eaf2;
+      --muted: #9fb0d3;
+      --accent: #3b82f6; /* primary blue */
+      --accent-2: #22d3ee; /* cyan */
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 10px 30px rgba(0,0,0,0.45);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-lg: 20px;
+      --maxw: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: var(--text); text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* =========================
+       Navbar
+       ========================= */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      transition: all .35s ease;
+      background: linear-gradient(180deg, rgba(10,14,28,0.85) 0%, rgba(10,14,28,0.55) 60%, rgba(10,14,28,0) 100%);
+      backdrop-filter: blur(8px);
+    }
+    header.scrolled {
+      background: rgba(10,14,28,0.85);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 700; letter-spacing: 0.3px; font-size: 1.05rem;
+    }
+    .brand svg { width: 28px; height: 28px; }
+    .brand span { color: var(--text); }
+
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav-links a { color: var(--muted); font-weight: 600; font-size: 0.95rem; opacity: 0.95; }
+    .nav-links a:hover { color: var(--text); }
+
+    .cta-small { padding: 10px 14px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), #2563eb); color: white; font-weight: 700; }
+    .cta-small:hover { filter: brightness(1.08); }
+
+    .burger { display: none; background: transparent; border: 0; color: var(--text); }
+
+    /* Mobile nav */
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .burger { display: block; }
+      .mobile-nav { display: none; position: absolute; top: 68px; left: 0; right:0; background: rgba(10,14,28,0.96); border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .mobile-nav.open { display: block; }
+      .mobile-nav a { display: block; padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
+      .mobile-nav a:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    }
+
+    /* =========================
+       Hero Section
+       ========================= */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding-top: 68px; /* header offset */
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(59,130,246,0.18), transparent 60%),
+                  radial-gradient(900px 520px at 90% 20%, rgba(34,211,238,0.18), transparent 60%),
+                  var(--bg);
+      isolation: isolate;
+    }
+    /* Animated gradient overlay */
+    .hero::before {
+      content: "";
+      position: absolute; inset: -20%; z-index: -2;
+      background: conic-gradient(from 180deg, #0b1020, #0c163d, #0b1020, #0a1330);
+      animation: swirl 22s linear infinite;
+      filter: blur(80px) saturate(140%);
+      opacity: 0.55;
+    }
+    @keyframes swirl {
+      0% { transform: rotate(0deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1.1); }
+    }
+
+    /* Canvas for soft particles */
+    #particles { position: absolute; inset: 0; z-index: -1; opacity: 0.45; }
+
+    .hero-inner { display: grid; gap: 18px; text-align: center; padding: 40px 0; }
+    .eyebrow { color: var(--accent-2); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; }
+    .headline { font-size: clamp(1.8rem, 3.8vw, 3.1rem); line-height: 1.15; font-weight: 800; }
+    .subhead { color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.25rem); max-width: 840px; margin: 0 auto; }
+
+    .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+    .btn {
+      --pad: 14px 20px;
+      padding: var(--pad);
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), #2563eb); color: white; }
+    .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); }
+    .btn-outline:hover { background: rgba(255,255,255,0.06); transform: translateY(-1px); }
+
+    /* =========================
+       Section Styles & Utilities
+       ========================= */
+    section { padding: 80px 0; position: relative; }
+    .section-title { font-size: clamp(1.5rem, 2.5vw, 2.2rem); margin-bottom: 10px; }
+    .section-subtitle { color: var(--muted); margin-bottom: 28px; }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px) scale(0.995); transition: all .7s cubic-bezier(.2,.65,.2,1); }
+    .reveal-visible { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* =========================
+       Services Grid
+       ========================= */
+    .services-grid {
+      display: grid; gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 680px) { .services-grid { grid-template-columns: 1fr; } }
+
+    .service-card {
+      position: relative;
+      padding: 20px;
+      overflow: hidden;
+      background: radial-gradient(120% 120% at 0% 0%, rgba(59,130,246,0.12), transparent 50%), var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      transition: transform .2s ease, border-color .2s ease, background .3s ease;
+      transform-style: preserve-3d;
+    }
+    .service-card:hover { transform: translateY(-4px); border-color: rgba(59,130,246,0.45); }
+
+    .service-icon { width: 44px; height: 44px; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.35); display: grid; place-items: center; border-radius: 12px; margin-bottom: 12px; }
+    .service-icon svg { width: 26px; height: 26px; color: var(--accent); }
+
+    .service-title { font-weight: 800; margin: 6px 0 8px; }
+    .service-desc { color: var(--muted); }
+    .service-more { display: none; color: var(--muted); margin-top: 10px; font-size: 0.95rem; }
+    .service-card.active .service-more { display: block; }
+
+    .card-actions { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+    .link { color: var(--accent-2); font-weight: 700; }
+
+    /* =========================
+       About
+       ========================= */
+    .about .panel { padding: 28px; display: grid; gap: 14px; }
+
+    /* =========================
+       Pricing
+       ========================= */
+    .pricing-grid { display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 1080px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    .price-card { padding: 22px; background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); position: relative; overflow: hidden; }
+    .price-card::after { content: ""; position: absolute; inset: -40% -60% auto auto; width: 200px; height: 200px; background: radial-gradient(closest-side, rgba(59,130,246,0.25), transparent); transform: rotate(25deg); }
+    .price-name { font-weight: 800; font-size: 1.05rem; }
+    .price { font-size: 2rem; font-weight: 900; margin: 6px 0 10px; }
+    .price small { color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+
+    /* =========================
+       Testimonials
+       ========================= */
+    .testi-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 980px) { .testi-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 620px) { .testi-grid { grid-template-columns: 1fr; } }
+
+    .testi-card { padding: 20px; background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); }
+    .testi-card .who { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+    .avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #1f2a44, #0f1730); border: 1px solid rgba(255,255,255,0.1); display: grid; place-items: center; font-weight: 800; color: var(--accent); }
+
+    /* =========================
+       Contact
+       ========================= */
+    .contact-grid { display: grid; gap: 18px; grid-template-columns: 1.2fr .8fr; align-items: start; }
+    @media (max-width: 980px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    form { display: grid; gap: 12px; }
+    .field { display: grid; gap: 6px; }
+    label { color: var(--muted); font-weight: 700; font-size: 0.92rem; }
+    input, textarea {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 12px 12px;
+      outline: none; transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    input:focus, textarea:focus { border-color: rgba(59,130,246,0.7); box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
+    textarea { min-height: 120px; resize: vertical; }
+
+    .contact-side { padding: 18px; background: var(--panel); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); }
+    .contact-item { display: flex; align-items: center; gap: 12px; color: var(--muted); margin: 8px 0; }
+    .contact-item svg { width: 20px; height: 20px; color: var(--accent); }
+
+    .map-placeholder { height: 220px; border-radius: var(--radius-sm); background: repeating-linear-gradient(45deg, #0f1730, #0f1730 10px, #0e1530 10px, #0e1530 20px); border: 1px dashed rgba(255,255,255,0.2); display: grid; place-items: center; color: var(--muted); font-weight: 700; }
+
+    .status { margin-top: 8px; font-weight: 700; }
+    .status.success { color: var(--success); }
+    .status.error { color: var(--danger); }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #0f1730; border: 1px solid rgba(255,255,255,0.12); padding: 12px 14px; border-radius: 12px; color: var(--text); box-shadow: var(--shadow); opacity: 0; transform: translateY(8px); transition: all .25s ease; z-index: 60; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* =========================
+       Footer
+       ========================= */
+    footer { padding: 40px 0 30px; background: #090e1b; border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer-grid { display: grid; gap: 18px; grid-template-columns: 1.2fr .8fr .8fr; }
+    @media (max-width: 920px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+
+    .socials { display: flex; gap: 12px; }
+    .socials a { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: var(--muted); }
+    .socials a:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+
+    .quick-links a { display: block; color: var(--muted); padding: 6px 0; }
+    .quick-links a:hover { color: var(--text); }
+
+    .copyright { color: var(--muted); font-size: 0.92rem; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <!-- =========================
+       Header & Navigation
+       ========================= -->
+  <header id="top">
+    <div class="container nav" role="navigation" aria-label="Primary">
+      <a href="#" class="brand" aria-label="Intelvex Home">
+        <!-- Brand Icon (Shield) -->
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 4l22 8v16c0 13.2-9.4 25.6-22 28-12.6-2.4-22-14.8-22-28V12l22-8z" fill="currentColor"/></svg>
+        <span>Intelvex</span>
+      </a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="cta-small">Get a Free Scan</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav" aria-label="Mobile menu">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="cta-small" style="display:inline-block;margin:12px 20px;">Get a Free Scan</a>
+    </div>
+  </header>
+
+  <!-- =========================
+       Hero
+       ========================= -->
+  <section class="hero" id="home" aria-label="Hero">
+    <!-- Animated particle background (no external libs) -->
+    <canvas id="particles" aria-hidden="true"></canvas>
+
+    <div class="container hero-inner reveal">
+      <div class="eyebrow">AI-Assisted Protection</div>
+      <h1 class="headline">Protecting Your Business with Next-Gen Cybersecurity</h1>
+      <p class="subhead">Affordable AI-assisted security solutions for small and medium businesses in the US and Canada.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact" aria-label="Get a Free Scan">Get a Free Scan</a>
+        <a class="btn btn-outline" href="#contact" aria-label="Book Consultation">Book Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Services
+       ========================= -->
+  <section id="services" aria-labelledby="services-title">
+    <div class="container">
+      <h2 class="section-title" id="services-title">Services</h2>
+      <p class="section-subtitle">Practical, results-driven security services designed for small and medium businesses.</p>
+
+      <div class="services-grid">
+        <!-- Service: Website Vulnerability Scanning -->
+        <article class="service-card reveal" tabindex="0" aria-label="Website Vulnerability Scanning">
+          <div class="service-icon" aria-hidden="true">
+            <!-- Shield / Globe -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M3 12h18M12 3a14 14 0 010 18a14 14 0 010-18z"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Website Vulnerability Scanning</h3>
+          <p class="service-desc">Identify website flaws using industry tools like OWASP ZAP and Nikto, and receive a clear, prioritized vulnerability report.</p>
+          <div class="service-more">Covers common web risks (OWASP Top 10), misconfigurations, and outdated components with remediation guidance.</div>
+          <div class="card-actions">
+            <button class="btn btn-outline toggle-more" aria-expanded="false">Learn more</button>
+            <a class="link" href="#contact">Request scan</a>
+          </div>
+        </article>
+
+        <!-- Service: Network Security Scanning -->
+        <article class="service-card reveal" tabindex="0" aria-label="Network Security Scanning">
+          <div class="service-icon" aria-hidden="true">
+            <!-- Network / Ports -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <path d="M7 7l4 4m2-2l4-4m-6 6l-4 4m6-6l4 4"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Network Security Scanning</h3>
+          <p class="service-desc">Detect open ports and network vulnerabilities using Nmap and OpenVAS to harden your perimeter and internal network.</p>
+          <div class="service-more">Includes risk ranking, exposed services review, and actionable steps to reduce attack surface.</div>
+          <div class="card-actions">
+            <button class="btn btn-outline toggle-more" aria-expanded="false">Learn more</button>
+            <a class="link" href="#contact">Start audit</a>
+          </div>
+        </article>
+
+        <!-- Service: Phishing Awareness Testing -->
+        <article class="service-card reveal" tabindex="0" aria-label="Phishing Awareness Testing">
+          <div class="service-icon" aria-hidden="true">
+            <!-- Mail / Hook -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18v12H3z"/>
+              <path d="M3 6l9 7l9-7"/>
+              <path d="M18 12c0 3 3 3 3 6a3 3 0 11-6 0"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Phishing Awareness Testing</h3>
+          <p class="service-desc">Simulate phishing campaigns and deliver targeted training with GoPhish, increasing employee resilience.</p>
+          <div class="service-more">Anonymous results dashboard, tailored templates, and short micro‑lessons to reinforce best practices.</div>
+          <div class="card-actions">
+            <button class="btn btn-outline toggle-more" aria-expanded="false">Learn more</button>
+            <a class="link" href="#contact">Run a test</a>
+          </div>
+        </article>
+
+        <!-- Service: Security Policies & Documentation -->
+        <article class="service-card reveal" tabindex="0" aria-label="Security Policies and Documentation">
+          <div class="service-icon" aria-hidden="true">
+            <!-- Document -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h8l4 4v14H6z"/>
+              <path d="M14 3v4h4"/>
+              <path d="M8 11h8M8 15h8M8 19h8"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Security Policies &amp; Documentation</h3>
+          <p class="service-desc">Establish password policies, incident response plans, and security guidelines tailored to your operations.</p>
+          <div class="service-more">Templates aligned to best practices and compliance-ready documentation with review workshops.</div>
+          <div class="card-actions">
+            <button class="btn btn-outline toggle-more" aria-expanded="false">Learn more</button>
+            <a class="link" href="#contact">Get templates</a>
+          </div>
+        </article>
+
+        <!-- Service: Security Monitoring -->
+        <article class="service-card reveal" tabindex="0" aria-label="Security Monitoring">
+          <div class="service-icon" aria-hidden="true">
+            <!-- Activity / Monitor -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="12" rx="2"/>
+              <path d="M7 10l2 2l2-4l2 6l2-3l2 2"/>
+              <path d="M8 20h8"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Security Monitoring</h3>
+          <p class="service-desc">Centralized log monitoring, suspicious activity alerts, and monthly security reports for continuous coverage.</p>
+          <div class="service-more">Integrates with common platforms and sends concise, actionable insights to your inbox.</div>
+          <div class="card-actions">
+            <button class="btn btn-outline toggle-more" aria-expanded="false">Learn more</button>
+            <a class="link" href="#contact">Start monitoring</a>
+          </div>
+        </article>
+
+        <!-- Spacer "card" for visual balance on wide screens -->
+        <article class="service-card reveal" aria-hidden="true" style="display:none"></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       About
+       ========================= -->
+  <section id="about" class="about" aria-labelledby="about-title">
+    <div class="container">
+      <h2 class="section-title" id="about-title">About Intelvex</h2>
+      <div class="panel reveal">
+        <p><strong>Our mission:</strong> <em>Intelvex helps small businesses stay secure with AI-powered cybersecurity solutions.</em></p>
+        <p>We combine proven security methodologies with automation to deliver fast, clear results—without enterprise price tags. Whether you need a one-time assessment or ongoing monitoring, we meet you where you are and help you mature your security posture step by step.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Pricing
+       ========================= -->
+  <section id="pricing" aria-labelledby="pricing-title">
+    <div class="container">
+      <h2 class="section-title" id="pricing-title">Pricing</h2>
+      <p class="section-subtitle">Simple, transparent pricing. No surprises.</p>
+      <div class="pricing-grid">
+        <div class="price-card reveal" role="listitem" aria-label="Basic Security Scan">
+          <div class="price-name">Basic Security Scan</div>
+          <div class="price">$99</div>
+          <ul>
+            <li>Website vulnerability snapshot</li>
+            <li>Top findings & quick fixes</li>
+            <li>30‑minute review call</li>
+          </ul>
+          <div style="margin-top:12px;">
+            <a href="#contact" class="btn btn-primary" aria-label="Choose Basic Security Scan">Choose Plan</a>
+          </div>
+        </div>
+
+        <div class="price-card reveal" role="listitem" aria-label="Startup Security Audit">
+          <div class="price-name">Startup Security Audit</div>
+          <div class="price">$399</div>
+          <ul>
+            <li>Web + network scanning</li>
+            <li>Prioritized remediation plan</li>
+            <li>Executive summary report</li>
+          </ul>
+          <div style="margin-top:12px;">
+            <a href="#contact" class="btn btn-primary" aria-label="Choose Startup Security Audit">Choose Plan</a>
+          </div>
+        </div>
+
+        <div class="price-card reveal" role="listitem" aria-label="Security Monitoring">
+          <div class="price-name">Security Monitoring</div>
+          <div class="price">$79 <small>/month</small></div>
+          <ul>
+            <li>Log aggregation & alerts</li>
+            <li>Monthly security report</li>
+            <li>Email notifications</li>
+          </ul>
+          <div style="margin-top:12px;">
+            <a href="#contact" class="btn btn-primary" aria-label="Choose Security Monitoring">Choose Plan</a>
+          </div>
+        </div>
+
+        <div class="price-card reveal" role="listitem" aria-label="Phishing Awareness Program">
+          <div class="price-name">Phishing Awareness Program</div>
+          <div class="price">$299</div>
+          <ul>
+            <li>Simulated phishing campaign</li>
+            <li>Employee training modules</li>
+            <li>Metrics & recommendations</li>
+          </ul>
+          <div style="margin-top:12px;">
+            <a href="#contact" class="btn btn-primary" aria-label="Choose Phishing Awareness Program">Choose Plan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Testimonials
+       ========================= -->
+  <section id="testimonials" aria-labelledby="testi-title">
+    <div class="container">
+      <h2 class="section-title" id="testi-title">What Our Clients Say</h2>
+      <p class="section-subtitle">Real feedback from small business owners.</p>
+      <div class="testi-grid">
+        <div class="testi-card reveal">
+          <p>“Intelvex found issues our old scanner missed and gave us a clear plan to fix them. The report was concise and easy for our team to follow.”</p>
+          <div class="who">
+            <div class="avatar" aria-hidden="true">AB</div>
+            <div>
+              <strong>Aisha Bennett</strong><br/>
+              <span style="color:var(--muted)">Owner, BrightLeaf Marketing</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal">
+          <p>“The phishing simulation opened our eyes. After the training, our click‑through rate dropped by 72%. That’s real impact.”</p>
+          <div class="who">
+            <div class="avatar" aria-hidden="true">DT</div>
+            <div>
+              <strong>Daniel Tran</strong><br/>
+              <span style="color:var(--muted)">CEO, Nova Retail</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal">
+          <p>“Monthly monitoring gives me peace of mind. If something looks off, I get an alert and a simple explanation of what to do next.”</p>
+          <div class="who">
+            <div class="avatar" aria-hidden="true">JR</div>
+            <div>
+              <strong>Julia Ramirez</strong><br/>
+              <span style="color:var(--muted)">Founder, Finch Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Contact
+       ========================= -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <h2 class="section-title" id="contact-title">Contact Us</h2>
+      <p class="section-subtitle">Have questions or want to start a scan? Send a message and we’ll get back within one business day.</p>
+
+      <div class="contact-grid">
+        <!-- Contact Form -->
+        <div class="panel reveal" style="padding:22px;">
+          <form id="contactForm" novalidate aria-describedby="formStatus">
+            <!-- Name Field -->
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your full name" required aria-required="true" />
+            </div>
+            <!-- Email Field -->
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@company.com" required aria-required="true" />
+            </div>
+            <!-- Message Field -->
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell us what you need help with" required aria-required="true"></textarea>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </div>
+            <div id="formStatus" class="status" aria-live="polite" role="status"></div>
+          </form>
+        </div>
+
+        <!-- Contact Info & Map Placeholder -->
+        <aside class="contact-side reveal" aria-label="Contact details">
+          <h3 style="margin-top:0">Get in Touch</h3>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3 6.18 2 2 0 0 1 5 4h4.09a2 2 0 0 1 2 1.72c.12.9.3 1.77.54 2.6a2 2 0 0 1-.45 2.11L10 12a16 16 0 0 0 6 6l1.57-1.18a2 2 0 0 1 2.11-.45c.83.24 1.7.42 2.6.54A2 2 0 0 1 22 16.92z"/></svg>
+            <span>+1 (888) 555‑0143</span>
+          </div>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <span>hello@intelvex.com</span>
+          </div>
+          <div class="map-placeholder" role="img" aria-label="Map placeholder">Map Placeholder</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Footer
+       ========================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:8px">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4l22 8v16c0 13.2-9.4 25.6-22 28-12.6-2.4-22-14.8-22-28V12l22-8z" fill="currentColor"/></svg>
+            <span>Intelvex</span>
+          </div>
+          <p style="color:var(--muted); max-width:520px">Affordable, AI-assisted cybersecurity for small and medium businesses in North America. Stay one step ahead—without enterprise complexity.</p>
+          <div class="socials" aria-label="Social media links">
+            <a href="#" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.8-2.2 3.8-2.2 4 0 4.8 2.6 4.8 6V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9s-2.8 1.9-2.8 3.8V24H8V8z"/></svg>
+            </a>
+            <a href="#" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.244 2H21.5l-7.5 8.566L22.5 22h-6.77l-5.297-6.2L4.5 22H1.243l8.017-9.155L1 2h6.912l4.77 5.464L18.244 2zm-1.186 18h1.966L7.03 4H4.977l12.081 16z"/></svg>
+            </a>
+            <a href="#" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 .5C5.73.5.9 5.33.9 11.6c0 4.87 3.16 9 7.55 10.45.55.1.75-.24.75-.53v-1.88c-3.07.67-3.72-1.32-3.72-1.32-.5-1.25-1.22-1.59-1.22-1.59-1-.68.08-.67.08-.67 1.1.08 1.68 1.14 1.68 1.14.98 1.67 2.58 1.19 3.21.9.1-.72.39-1.2.7-1.48-2.45-.27-5.02-1.22-5.02-5.43 0-1.2.43-2.19 1.13-2.96-.11-.27-.49-1.37.11-2.85 0 0 .93-.3 3.05 1.13a10.5 10.5 0 0 1 5.56 0c2.12-1.44 3.05-1.13 3.05-1.13.6 1.48.22 2.58.11 2.85.7.77 1.13 1.76 1.13 2.96 0 4.22-2.59 5.15-5.05 5.42.4.34.76 1.02.76 2.06v3.05c0 .29.2.64.76.53 4.38-1.44 7.54-5.58 7.54-10.45C23.1 5.33 18.27.5 12 .5z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <div class="quick-links" aria-label="Quick links">
+            <a href="#services">Services</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Services</h4>
+          <div class="quick-links">
+            <a href="#services">Website Vulnerability Scanning</a>
+            <a href="#services">Network Security Scanning</a>
+            <a href="#services">Phishing Awareness Testing</a>
+            <a href="#services">Security Policies &amp; Documentation</a>
+            <a href="#services">Security Monitoring</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright">© <span id="yr"></span> Intelvex. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Toast for form feedback -->
+  <div class="toast" id="toast" role="status" aria-live="polite">Thanks! Your message has been sent.</div>
+
+  <script>
+    // =========================
+    // Utility: qs / qsa helpers
+    // =========================
+    const qs = (s, el=document) => el.querySelector(s);
+    const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
+
+    // =========================
+    // Navbar scroll behavior + mobile menu
+    // =========================
+    const header = qs('header');
+    const burger = qs('#burger');
+    const mobileNav = qs('#mobileNav');
+
+    function onScroll() {
+      if (window.scrollY > 10) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    burger.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+
+    // Close mobile menu when clicking a link
+    qsa('.mobile-nav a').forEach(a => a.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }));
+
+    // =========================
+    // Scroll reveal animations (IntersectionObserver)
+    // =========================
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { threshold: 0.12 });
+
+    qsa('.reveal').forEach(el => observer.observe(el));
+
+    // =========================
+    // Interactive service cards (tilt + toggle details)
+    // =========================
+    qsa('.service-card').forEach(card => {
+      // Tilt on mouse move
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left; const y = e.clientY - r.top;
+        const rx = ((y / r.height) - .5) * -6; // tilt X
+        const ry = ((x / r.width) - .5) * 6;   // tilt Y
+        card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+
+      // Toggle details via button or Enter key
+      const btn = qs('.toggle-more', card);
+      const more = qs('.service-more', card);
+      const toggle = () => {
+        const active = card.classList.toggle('active');
+        btn.setAttribute('aria-expanded', String(active));
+      };
+      btn.addEventListener('click', toggle);
+      card.addEventListener('keydown', (e) => { if (e.key === 'Enter') toggle(); });
+    });
+
+    // =========================
+    // Contact form validation (client-side)
+    // =========================
+    const form = qs('#contactForm');
+    const statusEl = qs('#formStatus');
+    const toast = qs('#toast');
+
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    function showStatus(msg, ok=true) {
+      statusEl.textContent = msg;
+      statusEl.className = 'status ' + (ok ? 'success' : 'error');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = qs('#name').value.trim();
+      const email = qs('#email').value.trim();
+      const message = qs('#message').value.trim();
+
+      if (!name) return showStatus('Please enter your name.', false);
+      if (!emailRe.test(email)) return showStatus('Please enter a valid email address.', false);
+      if (message.length < 10) return showStatus('Message should be at least 10 characters.', false);
+
+      // Simulate successful submit (no backend wired). Replace with real fetch() call as needed.
+      showStatus('Sending…');
+      setTimeout(() => {
+        showStatus('Thanks! Your message has been sent.', true);
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+        form.reset();
+      }, 800);
+    });
+
+    // =========================
+    // Hero particles (lightweight, respects reduced motion)
+    // =========================
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canvas = qs('#particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let w, h, rafId;
+
+    function resize() {
+      w = canvas.width = canvas.clientWidth = window.innerWidth;
+      h = canvas.height = canvas.clientHeight = document.querySelector('.hero').offsetHeight;
+    }
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.min(120, Math.floor((w * h) / 16000)); // scale with area
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: rand(0, w), y: rand(0, h),
+          vx: rand(-0.2, 0.2), vy: rand(-0.2, 0.2),
+          r: rand(0.6, 1.8),
+          alpha: rand(0.2, 0.8)
+        });
+      }
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, w, h);
+      // Draw links
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        // Move
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+      }
+
+      // Lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y; const d2 = dx*dx + dy*dy;
+          if (d2 < 110*110) {
+            const alpha = 0.08 * (1 - d2 / (110*110));
+            ctx.strokeStyle = `rgba(59,130,246,${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+      // Dots
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        ctx.fillStyle = `rgba(34,211,238,${p.alpha})`;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+      }
+
+      rafId = requestAnimationFrame(step);
+    }
+
+    function startParticles() {
+      if (prefersReduced) return; // Respect user's preference
+      resize();
+      initParticles();
+      cancelAnimationFrame(rafId);
+      step();
+    }
+
+    window.addEventListener('resize', () => { resize(); initParticles(); });
+    // Kick off after load to ensure layout is ready
+    window.addEventListener('load', startParticles);
+
+    // =========================
+    // Small touches
+    // =========================
+    qs('#yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
